@@ -2,7 +2,7 @@
 Owner: Phob  
 Updated: 2026-04-03
 
-This folder contains the **AI Brain** for a GitHub Copilot-style CLI workflow.
+This folder contains the **_ai-agent-cli** for a GitHub Copilot-style CLI workflow.
 Your job is to be **token-efficient**, **requirement-driven**, and **patch-oriented**.
 
 ---
