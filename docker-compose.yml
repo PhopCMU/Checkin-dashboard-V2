@@ -1,0 +1,18 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        VITE_CRYPTO_SECRET_KEY: ${VITE_CRYPTO_SECRET_KEY}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_APP_VERSION: ${VITE_APP_VERSION}
+        VITE_PUBLIC_AUTH_URL: ${VITE_PUBLIC_AUTH_URL}
+        VITE_PUBLIC_CLIENT_ID: ${VITE_PUBLIC_CLIENT_ID}
+        VITE_PUBLIC_CALLBACK_URL: ${VITE_PUBLIC_CALLBACK_URL}
+        VITE_PUBLIC_SCOPE: ${VITE_PUBLIC_SCOPE}
+        VITE_PUBLIC_LOGOUT_URL: ${VITE_PUBLIC_LOGOUT_URL}
+        VITE_PUBLIC_BASICINFO_URL: ${VITE_PUBLIC_BASICINFO_URL}
+    container_name: checkin-dashboard
+    ports:
+      - "3081:80"
+    restart: always
