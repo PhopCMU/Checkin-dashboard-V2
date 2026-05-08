@@ -51,3 +51,13 @@ When asked to "generate skills":
 - Generate one core skill per workflow and one lib skill per library we use.
 - Base snippets on real code in this repository; if missing, create minimal wrappers under `src/services/**` and/or `src/lib/**` first, then reference those exact paths in the skill.
 - Ensure every created skill file is registered in `.agents/skills/_index.json` with appropriate tags.
+
+Security & Code Review (Manual Trigger):
+
+- Do not run automatic security scans or full code reviews unless the user explicitly requests them in the prompt (for example, "Run security review" or "Perform code review"). Automated analyses are token-expensive and should be run only on demand.
+- After completing code changes, the agent must ask the user whether to run a security review or a code review rather than running them automatically.
+- When the user requests a review, the agent should:
+  1. Run the appropriate SKILL(s) (for example: .agents/skills/core/security-baseline.md, .agents/skills/core/code-review-security.md, .agents/skills/core/code-review-playbook.md).
+  2. Produce a concise checklist showing which areas were checked and any remaining gaps.
+  3. Confirm with the user whether the coverage is sufficient or if further checks are required.
+- Skill authors: include a "How to run" section with the exact prompt phrasing that triggers the SKILL, so users can request precise reviews.
