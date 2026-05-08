@@ -1,30 +1,53 @@
-Always read README.md first.
+You are the project agent for a Vite + React + TypeScript app.
 
-Then follow:
+Always:
 
-1. Role selection:
-   - Builder = implement/change code
-   - Reviewer = review diffs/PRs and produce GitHub-ready comments
-     If role is not specified, ask which role to use.
+- Read existing code first; match established patterns and paths.
+- Prefer minimal diffs; do not refactor unrelated files.
+- Create/update reusable agent skills in `.agents/skills/**`.
+- If you fix a bug or learn a new pattern, append it to the relevant skill file under "Update notes".
+- Keep skills concise: When to use, Steps, Pitfalls, Minimal snippet, Update notes.
+- Maintain `.agents/skills/_index.json` entries for every skill file.
+- Maintain `.agents/skills/_index.json` entries for every skill file.
+- If tools (e.g., `autoskills`) create skills anywhere in the repo, index those paths in `_index.json` and add minimal glue skills under `.agents/skills/core/` instead of duplicating content.
 
-2. Context discipline (minimize tokens):
-   Use sources in order:
-   1. README.md
-   2. Relevant project code (only files needed)
-   3. Allowed local skills under ./.agents/skills/ (ONLY those listed in README)
-      Do not assume missing details. Ask.
+Architecture rules (src/\*\*):
 
-3. Output discipline:
-   - Use concise output.
-   - Ask before major refactors.
-   - Prefer minimal safe patches.
-   - Never invent packages/APIs/endpoints.
-   - No new dependencies unless approved.
+- Keep all app code under `src/**`.
+- Use these canonical folders (in order):
+  1. `src/app/**` (app shell, providers, router, layouts)
+  2. `src/pages/**` (route-level pages only)
+  3. `src/features/**` (feature modules; feature-local UI/hooks/services/types allowed)
+  4. `src/components/**` (shared components; UI primitives in `src/components/ui/**`)
+  5. `src/services/**` (domain services + API clients; network calls live here)
+  6. `src/api/**` (API contracts/types/schemas only; no network calls)
+  7. `src/lib/**` (shared helpers/adapters/integrations; cross-cutting utilities)
+  8. `src/utils/**` (pure utility functions only; no side effects, no network, no storage)
+  9. `src/hooks/**` (shared reusable hooks)
+  10. `src/contexts/**` (shared contexts when not feature-scoped)
+  11. `src/store/**` (global state if introduced)
+  12. `src/styles/**` (global styles)
+  13. `src/assets/**` (static assets)
+  14. `src/types/**` (global shared types if not feature-scoped)
+  15. `src/pwa/**` (PWA utilities; only if PWA is used)
 
-4. Frontend quality & security:
-   - Strict TypeScript; avoid `any` (justify if unavoidable).
-   - Never hardcode secrets/tokens; use env vars and update `.env.example`.
-   - Avoid sensitive logs/PII.
-   - Avoid unsafe HTML; address XSS risks.
-   - Handle network errors; show user-safe messages.
-   - Follow Tailwind + a11y patterns used in repo.
+Rules:
+
+- Do not call axios directly in UI/components/pages. Use `src/services/**` (preferred). If the repo already has `src/lib/api/**`, follow the existing pattern.
+- Keep page components thin; move logic into `features/`, `services/`, `hooks/`.
+- Avoid duplication: do not create new utility folders if `lib/` or `utils/` can be used.
+- `src/utils/**` must remain pure (no network, no DOM, no localStorage, no cookies).
+
+Auto-extend rule:
+
+- If a new cross-cutting concern appears (e.g., `workers/`, `analytics/`, `realtime/`):
+  1. Create `src/<concern>/**`
+  2. Add a short note to `.agents/skills/core/project-conventions.md`
+  3. Add/update a skill in `.agents/skills/core/` if it becomes a repeated workflow
+  4. Update `.agents/skills/_index.json`
+
+When asked to "generate skills":
+
+- Generate one core skill per workflow and one lib skill per library we use.
+- Base snippets on real code in this repository; if missing, create minimal wrappers under `src/services/**` and/or `src/lib/**` first, then reference those exact paths in the skill.
+- Ensure every created skill file is registered in `.agents/skills/_index.json` with appropriate tags.

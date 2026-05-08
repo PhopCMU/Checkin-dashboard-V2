@@ -1,193 +1,230 @@
 ---
-name: Bun
-description: Use when building, testing, or deploying JavaScript/TypeScript applications. Reach for Bun when you need to run scripts, manage packages, bundle code, or test applications with a single unified toolkit.
+name: bun
+description: Use when building, testing, and deploying JavaScript/TypeScript applications. Reach for Bun when you need to run scripts, manage dependencies, bundle code, or test applications with a single unified tool.
 metadata:
-    mintlify-proj: bun
-    version: "1.0"
+  mintlify-proj: bun
+  version: "1.0"
 ---
 
 # Bun Skill Reference
 
 ## Product Summary
 
-Bun is an all-in-one JavaScript/TypeScript toolkit that replaces Node.js, npm, and bundlers with a single binary. It includes a fast runtime (powered by JavaScriptCore), package manager, test runner, and bundler—all optimized for speed and modern JavaScript. Key files: `bunfig.toml` (configuration), `package.json` (scripts and dependencies), `bun.lock` (lockfile). Primary CLI commands: `bun run`, `bun install`, `bun test`, `bun build`. See https://bun.com/docs for comprehensive documentation.
+Bun is a unified JavaScript runtime, package manager, bundler, and test runner written in Zig. It replaces Node.js, npm, esbuild, and Jest with a single fast binary. Key files: `bunfig.toml` (configuration), `bun.lock` (lockfile), `package.json` (project metadata). Primary commands: `bun run`, `bun install`, `bun build`, `bun test`. Bun is 4x faster than Node.js on startup and 25x faster than npm for installations. Visit https://bun.com/docs for comprehensive documentation.
 
 ## When to Use
 
 Use Bun when:
-- Running TypeScript/JSX files directly without compilation overhead (`bun run file.ts`)
-- Installing dependencies faster than npm/yarn/pnpm (`bun install`)
-- Running tests with Jest-compatible syntax (`bun test`)
-- Bundling JavaScript/TypeScript for browsers or servers (`bun build`)
-- Executing package.json scripts with minimal startup time
-- Building full-stack applications with server and client code
-- Setting up monorepos with workspaces
-- Developing with hot-reload/watch mode
-- Deploying to serverless platforms (Vercel, Railway, AWS Lambda, etc.)
+- **Running scripts**: Execute TypeScript/JavaScript files directly without compilation steps (`bun run file.ts`)
+- **Managing dependencies**: Install, add, remove, or update packages faster than npm/yarn/pnpm (`bun install`, `bun add`)
+- **Bundling code**: Build JavaScript/TypeScript for browser or server targets with `bun build`
+- **Testing**: Run Jest-compatible tests with built-in test runner (`bun test`)
+- **Building full-stack apps**: Bundle server and client code together into single executables
+- **Monorepo workflows**: Use workspaces and filtering to manage multiple packages
+- **Replacing Node.js**: Run any Node.js-compatible code with better performance
+
+Do not use Bun for: type checking (use `tsc` separately), generating type declarations, or projects requiring exact Node.js compatibility for native modules.
 
 ## Quick Reference
 
-### Core Commands
+### Essential Commands
 
 | Task | Command | Notes |
 |------|---------|-------|
-| Run TypeScript file | `bun run file.ts` or `bun file.ts` | Transpiles on-the-fly; supports JSX |
-| Run package script | `bun run dev` | 28x faster than `npm run` |
-| Install dependencies | `bun install` | 25x faster than npm; creates `bun.lock` |
-| Add package | `bun add react` | Adds to `package.json` and installs |
-| Add dev dependency | `bun add -d typescript` | Installs as devDependency |
-| Run tests | `bun test` | Finds `*.test.ts`, `*.spec.ts` files |
-| Watch tests | `bun test --watch` | Re-runs on file changes |
-| Build bundle | `bun build ./index.ts --outdir ./dist` | Bundles for browser/server |
-| Watch build | `bun build ./index.ts --outdir ./dist --watch` | Rebuilds on changes |
-| Execute package | `bunx cowsay "hello"` | Like `npx` but faster |
+| Run TypeScript file | `bun run file.ts` | Transpiles on-the-fly; omit `run` for short form |
+| Run package script | `bun run dev` | Executes script from `package.json` |
+| Install dependencies | `bun install` | Creates `bun.lock` lockfile |
+| Add package | `bun add react` | Adds to `dependencies`; use `-d` for dev |
+| Remove package | `bun remove react` | Removes from `package.json` and `node_modules` |
+| Run tests | `bun test` | Finds `*.test.ts`, `*.spec.ts` files automatically |
+| Build bundle | `bun build ./src/index.ts --outdir ./dist` | Bundles with tree-shaking, minification optional |
+| Watch mode | `bun --watch run file.ts` | Re-runs on file changes |
+| Create project | `bun init` | Scaffolds new project with templates |
 
-### Configuration Files
+### Configuration File: bunfig.toml
 
-| File | Purpose | Location |
-|------|---------|----------|
-| `bunfig.toml` | Bun-specific config (runtime, test, install, build) | Project root or `~/.bunfig.toml` |
-| `package.json` | Scripts, dependencies, workspaces | Project root |
-| `bun.lock` | Lockfile (text format by default) | Project root |
-| `tsconfig.json` | TypeScript config (Bun respects this) | Project root |
-
-### Key bunfig.toml Sections
+Located at project root or `~/.bunfig.toml` (global). Optional but useful for customization.
 
 ```toml
-# Runtime behavior
-[define]
-"process.env.API_URL" = "'https://api.example.com'"
-
-# Test runner
-[test]
-root = "./__tests__"
-coverage = true
-coverageThreshold = 0.9
-
-# Package manager
 [install]
-optional = true
-dev = true
-linker = "hoisted"  # or "isolated"
+dev = true                    # Install devDependencies
+optional = true               # Install optionalDependencies
+peer = true                   # Install peerDependencies
+linker = "hoisted"           # "hoisted" or "isolated" (pnpm-style)
+saveTextLockfile = true      # Use text bun.lock instead of binary
 
-# Run scripts
+[serve]
+port = 3000                  # Default port for Bun.serve()
+
+[test]
+root = "."                   # Test root directory
+coverage = false             # Enable coverage reporting
+timeout = 5000               # Per-test timeout in ms
+preload = ["./setup.ts"]     # Scripts to run before tests
+
 [run]
-shell = "system"  # or "bun"
-bun = true        # alias node to bun
+shell = "system"             # "system" or "bun" (Windows defaults to "bun")
+bun = true                   # Auto-alias node to bun in scripts
 ```
+
+### File Types Supported
+
+Bun natively handles: `.js`, `.jsx`, `.ts`, `.tsx`, `.json`, `.jsonc`, `.toml`, `.yaml`, `.html`, `.css`, `.wasm`, `.node`. No configuration needed—just import and use.
+
+### Key Bun APIs
+
+| API | Purpose | Example |
+|-----|---------|---------|
+| `Bun.serve()` | Start HTTP server | `Bun.serve({ port: 3000, fetch: handler })` |
+| `Bun.file()` | Read/write files | `await Bun.file("path.txt").text()` |
+| `Bun.write()` | Write to disk | `await Bun.write("out.txt", data)` |
+| `Bun.build()` | Bundle code | `await Bun.build({ entrypoints, outdir })` |
+| `Bun.Transpiler` | Transpile code | `new Bun.Transpiler({ loader: "tsx" })` |
+| `Bun.spawn()` | Run child process | `Bun.spawn(["ls", "-la"])` |
 
 ## Decision Guidance
 
-### When to Use Hoisted vs. Isolated Installs
+### When to Use Hoisted vs Isolated Linker
 
 | Scenario | Use | Reason |
 |----------|-----|--------|
-| New monorepo/workspace | `isolated` | Prevents phantom dependencies |
-| New single-package project | `hoisted` | Traditional npm behavior |
-| Existing pre-v1.3.2 project | `hoisted` | Backward compatibility |
-| Strict dependency isolation needed | `isolated` | Each package gets own `node_modules` |
+| New monorepo/workspaces | `isolated` | Prevents phantom dependencies, stricter isolation |
+| New single-package project | `hoisted` | Traditional npm behavior, simpler |
+| Existing project (pre-v1.3.2) | `hoisted` | Backward compatibility |
+| Migrating from pnpm | `isolated` | Matches pnpm's approach |
 
-Use `bun install --linker isolated` or set in `bunfig.toml`.
+Set in `bunfig.toml`: `linker = "isolated"` or via CLI: `bun install --linker isolated`
 
-### When to Use bun build vs. bun run
+### When to Use bun build vs bun run
 
-| Task | Use | Why |
-|------|-----|-----|
-| Execute a script | `bun run` | Fast startup, no output files |
-| Prepare for browser | `bun build --target browser` | Optimizes for browser APIs |
-| Prepare for server | `bun build --target bun` or `--target node` | Optimizes for server APIs |
-| Create executable | `bun build --compile` | Single binary with Bun embedded |
-| Development server | `bun run` with `Bun.serve()` | Direct HTTP server in code |
+| Use Case | Tool | Why |
+|----------|------|-----|
+| Execute TypeScript directly | `bun run` | Fast transpilation, no output files |
+| Prepare for production | `bun build` | Minification, tree-shaking, bundling |
+| Ship single executable | `bun build --compile` | Creates standalone binary |
+| Development server | `bun run` + `Bun.serve()` | Hot reload, fast iteration |
 
-### When to Use --watch vs. --concurrent
+### When to Use --concurrent in Tests
 
-| Flag | Use Case |
-|------|----------|
-| `bun --watch run dev` | Restart entire process on file change |
-| `bun test --concurrent` | Run async tests in parallel (faster) |
-| `bun test --watch` | Re-run tests on file change |
-| `bun build --watch` | Rebuild bundle on file change |
+| Scenario | Use `--concurrent` | Reason |
+|----------|-------------------|--------|
+| Independent async tests | Yes | Parallel execution speeds up suite |
+| Tests with shared state | No | Use `test.serial()` for order-dependent tests |
+| Database/API tests | Maybe | Only if tests don't interfere |
+| Unit tests | Yes | Usually safe and faster |
 
 ## Workflow
 
-### 1. Initialize a New Project
+### 1. Initialize a Project
 ```bash
 bun init my-app
-# Choose template: Blank, React, or Library
 cd my-app
 ```
+Choose template: Blank, React, or Library. Creates `package.json`, `tsconfig.json`, `.gitignore`.
 
 ### 2. Install Dependencies
 ```bash
 bun install
-# Or add specific packages
+```
+Reads `package.json`, downloads packages, creates `bun.lock`. Much faster than npm.
+
+### 3. Add Packages
+```bash
 bun add react
-bun add -d @types/react
+bun add -d @types/react typescript
 ```
+Updates `package.json` and `bun.lock` automatically.
 
-### 3. Create and Run Code
+### 4. Write and Run Code
 ```bash
-# Create index.ts with your code
+# Create index.ts
+echo "console.log('Hello Bun!')" > index.ts
+
+# Run it
 bun run index.ts
-
-# Or add to package.json scripts
-# Then run: bun run dev
 ```
+Bun transpiles TypeScript on-the-fly; no build step needed.
 
-### 4. Write Tests
+### 5. Create HTTP Server
+```typescript
+// server.ts
+const server = Bun.serve({
+  port: 3000,
+  fetch(req) {
+    return new Response("Hello!");
+  },
+});
+console.log(`Listening on ${server.url}`);
+```
 ```bash
-# Create math.test.ts
-# Import from "bun:test"
-# Run: bun test
+bun run server.ts
 ```
 
-### 5. Bundle for Production
-```bash
-bun build ./index.ts --outdir ./dist --minify
-```
+### 6. Write Tests
+```typescript
+// math.test.ts
+import { test, expect } from "bun:test";
 
-### 6. Deploy
-```bash
-# Commit bun.lock to version control
-# In CI: bun ci (equivalent to bun install --frozen-lockfile)
-# Deploy dist/ or compiled executable
+test("2 + 2 = 4", () => {
+  expect(2 + 2).toBe(4);
+});
 ```
+```bash
+bun test
+```
+Finds and runs all `*.test.ts` files automatically.
+
+### 7. Bundle for Production
+```bash
+bun build ./src/index.ts --outdir ./dist --minify
+```
+Outputs optimized bundle to `dist/`. Use `--target browser|node|bun` to control output format.
+
+### 8. Create Standalone Executable
+```bash
+bun build ./cli.ts --outfile mycli --compile
+./mycli
+```
+Bundles code + Bun runtime into single executable; no dependencies needed.
 
 ## Common Gotchas
 
-- **Watch mode flag placement**: Use `bun --watch run dev`, not `bun run dev --watch`. Flags after the script name are passed to the script itself.
-- **Node.js compatibility**: Bun aims for Node.js compatibility but not everything is implemented. Check [nodejs-compat](/runtime/nodejs-compat) for status.
-- **Lifecycle scripts security**: Bun doesn't execute `postinstall` scripts by default. Add trusted packages to `trustedDependencies` in `package.json`.
-- **Lockfile format**: Bun v1.2+ uses text `bun.lock` by default (not binary `bun.lockb`). Commit this to version control.
-- **TypeScript types**: If you see `Bun` global errors, install `@types/bun` and configure `tsconfig.json` with `"lib": ["ESNext"]`.
-- **Auto-install disabled in production**: Set `[install] auto = "disable"` in `bunfig.toml` for CI/CD to prevent unexpected installs.
-- **Peer dependencies**: Bun installs peer dependencies by default (unlike npm). Disable with `[install] peer = false` if needed.
-- **Environment variables**: Bun loads `.env`, `.env.local`, `.env.[NODE_ENV]` automatically. Disable with `[env] file = false`.
-- **Monorepo filtering**: Use `--filter` with glob patterns: `bun install --filter 'packages/*'` or `bun run --filter 'ba*' test`.
-- **Bytecode generation**: Only works with `target: "bun"`. Requires matching Bun version for execution.
+- **Lifecycle scripts disabled by default**: Bun doesn't run `postinstall` scripts for security. Add trusted packages to `trustedDependencies` in `package.json` to allow them.
+- **`bun run` vs `bun <script>`**: If a built-in Bun command exists with the same name, use `bun run <script>` explicitly to run package.json scripts.
+- **Watch mode flag placement**: Use `bun --watch run file.ts`, not `bun run file.ts --watch`. Flags after the filename are passed to the script itself.
+- **TypeScript errors on Bun global**: Install `@types/bun` and add `"lib": ["ESNext"]` to `tsconfig.json` compilerOptions.
+- **Lockfile format**: Bun v1.2+ uses text `bun.lock` by default (not binary `bun.lockb`). Commit to version control.
+- **Auto-install disabled in CI**: Set `install.auto = "disable"` in `bunfig.toml` for production to prevent unexpected package downloads.
+- **Node.js compatibility**: Bun implements most Node.js APIs but not all. Check docs for `node:` module support before relying on Node-specific code.
+- **Bundler always bundles**: Unlike esbuild, `bun build` always bundles by default. Use `Bun.Transpiler` to transpile individual files without bundling.
+- **No type checking in bundler**: `bun build` does not type-check. Run `tsc --noEmit` separately for type validation.
+- **Peer dependencies installed by default**: Unlike npm, Bun installs peer dependencies automatically. Set `peer = false` in `bunfig.toml` to disable.
 
 ## Verification Checklist
 
 Before submitting work with Bun:
 
 - [ ] Run `bun install` to verify dependencies resolve without errors
-- [ ] Run `bun test` to verify all tests pass
-- [ ] Run `bun build` to verify bundle completes without errors
-- [ ] Check `bun.lock` is committed to version control (for reproducible installs)
-- [ ] Verify `bunfig.toml` has correct `[install]` and `[test]` sections if customized
-- [ ] Test with `bun run <script>` to verify package.json scripts work
-- [ ] Check for TypeScript errors: `bun run tsc --noEmit` (if tsc installed)
-- [ ] Verify watch mode works: `bun --watch run dev` (for development)
-- [ ] Test in CI environment: `bun ci` (frozen lockfile install)
-- [ ] Confirm no hardcoded Node.js-specific APIs if targeting browser
+- [ ] Run `bun run <script>` to test main entry point
+- [ ] Run `bun test` and verify all tests pass
+- [ ] Run `bun build` and check output files exist in `outdir`
+- [ ] Verify `bun.lock` is committed to version control (not `.gitignore`d)
+- [ ] Check `bunfig.toml` for any environment-specific settings that should be removed
+- [ ] Confirm no `node_modules` folder is committed (should be in `.gitignore`)
+- [ ] Test with `--production` flag if building for deployment: `bun install --production`
+- [ ] Verify TypeScript files have no type errors: `bun run tsc --noEmit` (if tsc installed)
+- [ ] Check that `package.json` `"type": "module"` is set for ESM projects
 
 ## Resources
 
-- **Comprehensive navigation**: https://bun.com/docs/llms.txt
-- **Runtime documentation**: https://bun.com/docs/runtime
-- **Package manager**: https://bun.com/docs/pm/cli/install
-- **Test runner**: https://bun.com/docs/test
-- **Bundler**: https://bun.com/docs/bundler
+**Comprehensive navigation**: https://bun.com/docs/llms.txt — Page-by-page listing of all Bun documentation.
+
+**Critical pages**:
+1. [Bun Runtime](https://bun.com/docs/runtime) — Execute files, scripts, and manage the runtime
+2. [Package Manager](https://bun.com/docs/pm/cli/install) — Install, add, remove packages and manage dependencies
+3. [Bundler](https://bun.com/docs/bundler) — Bundle JavaScript/TypeScript for production
+4. [Test Runner](https://bun.com/docs/test) — Write and run Jest-compatible tests
+5. [bunfig.toml](https://bun.com/docs/runtime/bunfig) — Configure Bun's behavior
 
 ---
 

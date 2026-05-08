@@ -1,0 +1,217 @@
+{
+  "skills": [
+    { "id": "accessibility", "path": "./accessibility/", "tags": [] },
+    { "id": "bun", "path": "./bun/", "tags": [] },
+    { "id": "frontend-design", "path": "./frontend-design/", "tags": [] },
+    {
+      "id": "nodejs-backend-patterns",
+      "path": "./nodejs-backend-patterns/",
+      "tags": []
+    },
+    {
+      "id": "nodejs-best-practices",
+      "path": "./nodejs-best-practices/",
+      "tags": []
+    },
+    { "id": "seo", "path": "./seo/", "tags": [] },
+    {
+      "id": "tailwind-css-patterns",
+      "path": "./tailwind-css-patterns/",
+      "tags": []
+    },
+    {
+      "id": "typescript-advanced-types",
+      "path": "./typescript-advanced-types/",
+      "tags": []
+    },
+    {
+      "id": "vercel-composition-patterns",
+      "path": "./vercel-composition-patterns/",
+      "tags": []
+    },
+    {
+      "id": "vercel-react-best-practices",
+      "path": "./vercel-react-best-practices/",
+      "tags": []
+    },
+    { "id": "vite", "path": "./vite/", "tags": [] },
+
+    {
+      "id": "core-project-conventions",
+      "path": "./core/project-conventions/",
+      "tags": ["core"]
+    },
+    {
+      "id": "core-skill-authoring-rules",
+      "path": "./core/skill-authoring-rules/",
+      "tags": ["core"]
+    },
+    {
+      "id": "core-skill-update-protocol",
+      "path": "./core/skill-update-protocol/",
+      "tags": ["core"]
+    },
+    {
+      "id": "role-ui-tailwind",
+      "path": "./core/role-ui-tailwind/",
+      "tags": ["core", "ui"]
+    },
+    {
+      "id": "role-data-api",
+      "path": "./core/role-data-api/",
+      "tags": ["core", "api"]
+    },
+    {
+      "id": "role-routing",
+      "path": "./core/role-routing/",
+      "tags": ["core", "routing"]
+    },
+    {
+      "id": "role-debug",
+      "path": "./core/role-debug/",
+      "tags": ["core", "debug"]
+    },
+
+    { "id": "lib-react", "path": "./libs/react/", "tags": ["lib", "react"] },
+    {
+      "id": "lib-react-router-dom",
+      "path": "./libs/react-router-dom/",
+      "tags": ["lib", "routing"]
+    },
+    { "id": "lib-axios", "path": "./libs/axios/", "tags": ["lib", "http"] },
+    {
+      "id": "lib-exceljs",
+      "path": "./libs/exceljs/",
+      "tags": ["lib", "excel"]
+    },
+    {
+      "id": "lib-date-fns",
+      "path": "./libs/date-fns/",
+      "tags": ["lib", "date"]
+    },
+    {
+      "id": "lib-crypto-js",
+      "path": "./libs/crypto-js/",
+      "tags": ["lib", "crypto"]
+    },
+    { "id": "lib-xlsx", "path": "./libs/xlsx/", "tags": ["lib", "excel"] },
+    {
+      "id": "lib-react-datepicker",
+      "path": "./libs/react-datepicker/",
+      "tags": ["lib", "ui"]
+    },
+    {
+      "id": "lib-lucide-react",
+      "path": "./libs/lucide-react/",
+      "tags": ["lib", "icons"]
+    },
+    {
+      "id": "lib-react-spread-sheet-excel",
+      "path": "./libs/react-spread-sheet-excel/",
+      "tags": ["lib", "spreadsheet"]
+    },
+
+    {
+      "id": "composition-patterns",
+      "path": "./composition-patterns/",
+      "tags": ["react", "composition"]
+    },
+    {
+      "id": "react-best-practices",
+      "path": "./react-best-practices/",
+      "tags": ["react", "best-practices"]
+    },
+
+    {
+      "id": "core-security-baseline",
+      "path": "./core/security-baseline.md",
+      "tags": ["core", "security"]
+    },
+    {
+      "id": "core-security-frontend-xss",
+      "path": "./core/security-frontend-xss.md",
+      "tags": ["core", "security", "xss"]
+    },
+    {
+      "id": "core-security-axios-auth",
+      "path": "./core/security-axios-auth.md",
+      "tags": ["core", "security", "auth"]
+    },
+    {
+      "id": "core-security-crypto-js-usage",
+      "path": "./core/security-crypto-js-usage.md",
+      "tags": ["core", "security", "crypto"]
+    },
+    {
+      "id": "core-security-dependencies",
+      "path": "./core/security-dependencies.md",
+      "tags": ["core", "security", "deps"]
+    },
+    {
+      "id": "lib-security",
+      "path": "./libs/security.md",
+      "tags": ["lib", "security", "hub"]
+    },
+
+    {
+      "id": "core.security-baseline",
+      "path": ".agents/skills/core/security-baseline.md",
+      "tags": ["security", "baseline", "checklist"]
+    },
+    {
+      "id": "core.security-frontend-xss",
+      "path": ".agents/skills/core/security-frontend-xss.md",
+      "tags": ["security", "xss", "react"]
+    },
+    {
+      "id": "core.security-axios-auth",
+      "path": ".agents/skills/core/security-axios-auth.md",
+      "tags": ["security", "auth", "axios", "cookies", "storage", "csrf"]
+    },
+    {
+      "id": "core.security-crypto-js-usage",
+      "path": ".agents/skills/core/security-crypto-js-usage.md",
+      "tags": ["security", "crypto-js", "hashing"]
+    },
+    {
+      "id": "core.security-dependencies",
+      "path": ".agents/skills/core/security-dependencies.md",
+      "tags": ["security", "dependencies", "supply-chain", "npm", "xlsx"]
+    },
+    {
+      "id": "libs.security",
+      "path": ".agents/skills/libs/security.md",
+      "tags": ["security", "hub"]
+    },
+    {
+      "id": "core.code-review-playbook",
+      "path": ".agents/skills/core/code-review-playbook.md",
+      "tags": ["review", "playbook", "workflow"]
+    },
+    {
+      "id": "core.code-review-react-ts",
+      "path": ".agents/skills/core/code-review-react-ts.md",
+      "tags": ["review", "react", "typescript"]
+    },
+    {
+      "id": "core.code-review-security",
+      "path": ".agents/skills/core/code-review-security.md",
+      "tags": ["review", "security", "xss", "auth"]
+    },
+    {
+      "id": "core.code-review-performance",
+      "path": ".agents/skills/core/code-review-performance.md",
+      "tags": ["review", "performance"]
+    },
+    {
+      "id": "core.code-review-architecture-folders",
+      "path": ".agents/skills/core/code-review-architecture-folders.md",
+      "tags": ["review", "architecture", "folders"]
+    },
+    {
+      "id": "core.code-review-pr-template",
+      "path": ".agents/skills/core/code-review-pr-template.md",
+      "tags": ["review", "pr", "template"]
+    }
+  ]
+}
