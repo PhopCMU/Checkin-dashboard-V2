@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-05-08T18:19:06.999Z",
+  "detected": {
+    "typescript": true,
+    "react": true,
+    "vite": true,
+    "tailwind": true,
+    "node": false,
+    "prisma": false,
+    "next": false,
+    "vue": false,
+    "svelte": false,
+    "docker": true,
+    "nginx": true
+  },
+  "recommended": [],
+  "indexPath": ".agents/skills/_index.json"
+}
